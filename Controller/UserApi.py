@@ -13,7 +13,7 @@ class UserApi(Resource):
 
     scoreList_fields = {
         'id': fields.Integer,
-        'score':fields.String,
+        'score_value':fields.String,
         'date':fields.DateTime,
         'user_id':fields.Integer
     }
@@ -27,7 +27,7 @@ class UserApi(Resource):
     }
 
    
-    def put(self):
+    def put(self,userguid):
         _args = user_args.parse_args()        
         if(User.query.filter_by(clientGuid=_args['clientGuid']).scalar() is not None):
             abort(500,message='clientGuid is taked')
@@ -39,8 +39,8 @@ class UserApi(Resource):
         return {'key':str(_guid)},201
 
     @marshal_with(userList_fields)
-    def get(self):
-        result = User.query.options(db.lazyload('score_list')).all()
+    def get(self,userguid):
+        result = User.query.filter_by(userGuid=userguid).options(db.lazyload('score_list')).all()
         return result;
 
    
