@@ -7,7 +7,7 @@ class UserListApi(Resource):
 
     scoreList_fields = {
         'id': fields.Integer,
-        'score':fields.Float,
+        'score_value':fields.Float,
         'date':fields.DateTime,
         'user_id':fields.Integer
     }

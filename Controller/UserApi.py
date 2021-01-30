@@ -13,7 +13,7 @@ class UserApi(Resource):
 
     scoreList_fields = {
         'id': fields.Integer,
-        'score':fields.String,
+        'score_value':fields.String,
         'date':fields.DateTime,
         'user_id':fields.Integer
     }
