@@ -39,8 +39,8 @@ class UserApi(Resource):
         return {'key':str(_guid)},201
 
     @marshal_with(userList_fields)
-    def get(self):
-        result = User.query.options(db.lazyload('score_list')).all()
+    def get(self,userguid):
+        result = User.query.filter_by(userGuid=userguid).options(db.lazyload('score_list')).all()
         return result;
 
    
