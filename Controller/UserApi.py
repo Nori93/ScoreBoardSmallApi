@@ -27,7 +27,7 @@ class UserApi(Resource):
     }
 
    
-    def put(self):
+    def put(self,userguid):
         _args = user_args.parse_args()        
         if(User.query.filter_by(clientGuid=_args['clientGuid']).scalar() is not None):
             abort(500,message='clientGuid is taked')

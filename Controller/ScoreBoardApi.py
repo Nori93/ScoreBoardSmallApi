@@ -8,35 +8,20 @@ request_args.add_argument("score", type=str, help="Score is requested",required=
 request_args.add_argument("date", type=inputs.datetime_from_iso8601, help="date is requested",required=True)
 
 
-class ScoreBoardApi(Resource):
+class ScoreBoardApi(Resource): 
 
-   
-
-    resorce_fields = {
+    scoreboard_fields = {
         'id': fields.Integer,
-        'name': fields.String,
-        'clientGuid': fields.String,
-        'userGuid': fields.String
+        'score_value': fields.Float,
+        'date': fields.String,
+        'user_id': fields.String
     }
 
-    def put(self):
-        _args = request_args.parse_args()
-        _user = User.query.filter_by(userGuid=_args['userGuid']).scalar()
-        if(_user is None):
-            abort(500,message='userGuid not found.')
+    @marshal_with(scoreboard_fields)
+    def get(sefl):     
         
-        _score = Score(score=_args['score'],date=_args['date'],user_id =_user.id)
-        db.session.add(_score)
-        db.session.commit()
-     
-        return {'scoreID':str(_score.id)}, 201
-
-    @marshal_with(resorce_fields)
-    def get(sefl):
-       # userID_abort(userID)
-        print(userID)
-        result = User.query.filter_by(userGuid=userID).first()   
+        _score = Score.query.order_by(Score.score_value).all()
         #args = request_args.parse_args()    
-        return result
+        return _score
 
   
